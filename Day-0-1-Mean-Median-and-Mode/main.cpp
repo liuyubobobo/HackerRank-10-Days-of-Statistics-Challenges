@@ -6,6 +6,42 @@
 
 using namespace std;
 
+double mean(const vector<int> &nums){
+
+    int sum = 0;
+    for( int i = 0 ; i < nums.size() ; i ++ )
+        sum += nums[i];
+
+    return (double)sum/nums.size();
+}
+
+double median(vector<int> nums){
+
+    sort( nums.begin(), nums.end() );
+
+    if( nums.size()%2 )
+        return nums[nums.size()/2];
+    else
+        return (double)(nums[nums.size()/2] + nums[nums.size()/2-1])/2.0;
+}
+
+int mode(const vector<int> &nums){
+
+    map<int,int> freq;
+    for( int i = 0 ; i < nums.size() ; i ++ )
+        freq[nums[i]] += 1;
+
+    int res = -1;
+    int bestFreq = 0;
+    for( map<int,int>::iterator iter = freq.begin() ; iter != freq.end() ; iter ++ )
+        if( iter->second > bestFreq ){
+            bestFreq = iter->second;
+            res = iter->first;
+        }
+
+    return res;
+}
+
 int main() {
 
     int N;
@@ -20,41 +56,13 @@ int main() {
 
 
     // Mean
-    int sum = 0;
-    for( int i = 0 ; i < N ; i ++ )
-        sum += nums[i];
-
-    cout<<fixed<<setprecision(1)<<(double)sum/N<<endl;
-
+    cout<<fixed<<setprecision(1)<<mean(nums)<<endl;
 
     // Median
-    sort( nums.begin(), nums.end() );
-
-    if( N%2 )
-        cout<<nums[N/2];
-    else{
-        sum = nums[N/2] + nums[N/2-1];
-        if( sum%2 )
-            cout<<fixed<<setprecision(1)<<(double)sum/2.0<<endl;
-        else
-            cout<<sum/2<<endl;
-    }
-
+    cout<<fixed<<setprecision(1)<<median(nums)<<endl;
 
     // Mode
-    map<int,int> freq;
-    for( int i = 0 ; i < nums.size() ; i ++ )
-        freq[nums[i]] += 1;
-
-    int res = -1;
-    int bestFreq = 0;
-    for( map<int,int>::iterator iter = freq.begin() ; iter != freq.end() ; iter ++ )
-        if( iter->second > bestFreq ){
-            bestFreq = iter->second;
-            res = iter->first;
-        }
-
-    cout<<res<<endl;
+    cout<<mode(nums)<<endl;
 
     return 0;
 }
